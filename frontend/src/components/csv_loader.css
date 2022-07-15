@@ -1,0 +1,49 @@
+h2 {
+    font-family: Tinos;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.csv_load_window {
+    text-align: center;
+    margin-left: 7.5em;
+    margin-top: 2em;
+    color: inherit;
+    font-family: Tinos;
+    font-size: 24px;
+    border: 1px solid #ddd;
+    width: 20%;
+    padding: 5px 5px;
+    border-radius: 0px;
+    background-color: #F9F9F9;
+}
+
+.savecsv {
+    border: 1px solid #ddd;
+    font-family: Tinos;
+    font-size: 22px;
+    font-weight: normal;
+    margin: 20px;
+    height: 38px;
+    width: 160px;
+    text-align: center;
+}
+
+.tech_data_input {
+    font-family: Tinos;
+    font-size: 16px;
+    content: 'Select some files';
+    width: 220px;
+}
+
+.strip_input {
+    font-family: Tinos;
+    font-size: 16px;
+    width: 220px;
+}
+
+.swath_input {
+    font-family: Tinos;
+    font-size: 16px;
+    width: 220px;
+}

@@ -1,0 +1,62 @@
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+h1 {
+    font-family: Tinos;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+h2 {
+    font-family: Tinos;
+    font-size: 24px;
+    font-weight: normal;
+}
+
+input {
+    margin-left: 10px;
+    background-color: #FFFFFF;
+    border-radius: 0px;
+    border: 1px solid;
+    border-color: #ddd;
+}
+
+input:focus{
+    outline: 1px solid black;
+}
+
+.modelwindow {
+    margin: 1em;
+}
+
+.modelinputs {
+    text-align: center;
+    margin-left: 5em;
+    margin-top: 2em;
+    color: inherit;
+    font-family: Tinos;
+    font-size: 24px;
+    border: 1px solid #ddd;
+    width: 26%;
+    padding: 5px 5px;
+    border-radius: 0px;
+    background-color: #F9F9F9;
+}
+
+.modelinputs * {
+    margin-bottom: 2px;
+}
+
+.inputbuttons * {
+    border: 1px solid #ddd;
+    font-family: Tinos;
+    font-size: 22px;
+    font-weight: normal;
+    margin: 20px;
+    height: 38px;
+    width: 160px;
+    text-align: center;
+}

@@ -1,0 +1,8 @@
+{
+  "short_name": "LSTU Edu Practice",
+  "name": "LSTU Edu Practice",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}
