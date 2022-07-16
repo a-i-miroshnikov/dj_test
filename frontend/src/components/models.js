@@ -2,7 +2,7 @@ import './models.css'
 var Latex = require("react-latex");
 
 const Model1 = () => {
-  const W12_averageShow = "$$W12_{среднее}$$";
+  const W12_averageShow = "$$W12_{average}$$";
 
   return (
     <div className="modelwindow">
@@ -69,8 +69,8 @@ const Model2 = () => {
   const L_conicShow = "$$L_{conic}$$";
   const D_buShow = "$$D_{bu}$$";
   const L_ckShow = "$$L_{ck}$$";
-  const W12_averageShow = "$$W12_{среднее}$$";
-  const P12_averageShow = "$$P12_{среднее}$$";
+  const W12_averageShow = "$$W12_{average}$$";
+  const P12_averageShow = "$$P12_{average}$$";
 
   return (
     <div className="modelwindow">
@@ -163,7 +163,7 @@ const Model3 = () => {
 
 const Model4 = () => {
   const L_wrShow = "$$L_{wr}$$";
-  const Sh12_averageShow = "$$Sh12_{среднее}$$";
+  const Sh12_averageShow = "$$Sh12_{average}$$";
 
   return (
     <div className="modelwindow">
@@ -194,7 +194,7 @@ const Model4 = () => {
 }
 
 const Model5 = () => {
-  const W12_averageShow = "$$W12_{среднее}$$";
+  const W12_averageShow = "$$W12_{average}$$";
 
   return (
     <div className="modelwindow">
@@ -262,9 +262,9 @@ const Model7 = () => {
   const T_coolShow = "$$T_{cool}$$";
   const L_wrShow = "$$L_{wr}$$";
   const K_expanShow = "$$K_{expan}$$";
-  const W12_averageShow = "$$W12_{среднее}$$";
-  const D12bot_averageShow = "$$D12bot_{среднее}$$";
-  const D12top_averageShow = "$$D12top_{среднее}$$";
+  const W12_averageShow = "$$W12_{average}$$";
+  const D12bot_averageShow = "$$D12bot_{average}$$";
+  const D12top_averageShow = "$$D12top_{average}$$";
 
   return (
     <div className="modelwindow">
@@ -327,13 +327,13 @@ const Model7 = () => {
 }
 
 const Model8 = () => {
-  const H12_averageShow = "$$H12_{среднее}$$";
-  const W12_averageShow = "$$W12_{среднее}$$";
-  const V11_averageShow = "$$V11_{среднее}$$";
-  const V12_averageShow = "$$V12_{среднее}$$";
-  const P12_averageShow = "$$P12_{среднее}$$";
-  const D12bot_averageShow = "$$D12bot_{среднее}$$";
-  const D12top_averageShow = "$$D12top_{среднее}$$";
+  const H12_averageShow = "$$H12_{average}$$";
+  const W12_averageShow = "$$W12_{average}$$";
+  const V11_averageShow = "$$V11_{average}$$";
+  const V12_averageShow = "$$V12_{average}$$";
+  const P12_averageShow = "$$P12_{average}$$";
+  const D12bot_averageShow = "$$D12bot_{average}$$";
+  const D12top_averageShow = "$$D12top_{average}$$";
 
   return (
     <div className="modelwindow">
@@ -396,9 +396,9 @@ const Model8 = () => {
 }
 
 const Model9 = () => {
-  const H12_averageShow = "$$H12_{среднее}$$";
-  const V11_averageShow = "$$V11_{среднее}$$";
-  const V12_averageShow = "$$V12_{среднее}$$";
+  const H12_averageShow = "$$H12_{average}$$";
+  const V11_averageShow = "$$V11_{average}$$";
+  const V12_averageShow = "$$V12_{average}$$";
 
   return (
     <div className="modelwindow">
@@ -433,7 +433,7 @@ const Model9 = () => {
 }
 
 const Model10 = () => {
-  const W12_averageShow = "$$W12_{среднее}$$";
+  const W12_averageShow = "$$W12_{average}$$";
 
   return (
     <div className="modelwindow">

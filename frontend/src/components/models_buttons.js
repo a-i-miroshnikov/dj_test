@@ -60,19 +60,24 @@ const ModelsButtons = () => {
   if (!modelsAvailable[1] || !modelsAvailable[3] || !modelsAvailable[6] || !modelsAvailable[7])
     modelsAvailable[9] = !modelsAvailable[9] ? false : true;
 
+  const btnTextColor = (modelIndex, disabled = false) => {
+    if (disabled) return "#666666"
+    return ModelIsShown[modelIndex] ? "#f2e19e" : "#F2F2F2"
+  }
+
   return (
     <div className="App">
       <div className="modelsbuttons">
-        <button name="model_1" onClick={() => ModelShow(0)} style={ModelIsShown[0] ? {color: "#f2e19e"} : {color: "#F2F2F2"}}>1. Распределение контактного давления валков</button>
-        <button name="model_2" onClick={() => ModelShow(1)} style={ModelIsShown[1] ? {color: "#f2e19e"} : {color: "#F2F2F2"}}>2. Профиль валков (по Целикову) изгиб валков</button>
-        <button name="model_3" onClick={() => ModelShow(2)} style={ModelIsShown[2] ? {color: "#f2e19e"} : {color: "#F2F2F2"}}>3. Смещение валков от (оси полосы или начального положения)</button>
-        <button name="model_4" onClick={() => ModelShow(3)} style={ModelIsShown[3] ? {color: "#f2e19e"} : {color: "#F2F2F2"}}>4. Зазор (исходный)</button>
-        <button name="model_5" onClick={() => ModelShow(4)} style={ModelIsShown[4] ? {color: "#f2e19e"} : {color: "#F2F2F2"}} disabled={!modelsAvailable[4]}>5. Износ профиля валков</button>
-        <button name="model_6" onClick={() => ModelShow(5)} style={ModelIsShown[5] ? {color: "#f2e19e"} : {color: "#F2F2F2"}} disabled={!modelsAvailable[5]}>6. Износ + зазоры</button>
-        <button name="model_7" onClick={() => ModelShow(6)} style={ModelIsShown[6] ? {color: "#f2e19e"} : {color: "#F2F2F2"}}>7. Модель распределения температур в валке</button>
-        <button name="model_8" onClick={() => ModelShow(7)} style={ModelIsShown[7] ? {color: "#f2e19e"} : {color: "#F2F2F2"}} disabled={!modelsAvailable[7]}>8. Растяжение (деформация) в валках</button>
-        <button name="model_9" onClick={() => ModelShow(8)} style={ModelIsShown[8] ? {color: "#f2e19e"} : {color: "#F2F2F2"}} disabled={!modelsAvailable[8]}>9. Растяжение (расширение) полосы</button>
-        <button name="model_10" onClick={() => ModelShow(9)} style={ModelIsShown[9] ? {color: "#f2e19e"} : {color: "#F2F2F2"}} disabled={!modelsAvailable[9]}>10. Модель профиля полосы без износа валков</button>
+        <button name="model_1" onClick={() => ModelShow(0)} style={{color: btnTextColor(0)}}>1. Распределение контактного давления валков</button>
+        <button name="model_2" onClick={() => ModelShow(1)} style={{color: btnTextColor(1)}}>2. Профиль валков (по Целикову) изгиб валков</button>
+        <button name="model_3" onClick={() => ModelShow(2)} style={{color: btnTextColor(2)}}>3. Смещение валков от (оси полосы или начального положения)</button>
+        <button name="model_4" onClick={() => ModelShow(3)} style={{color: btnTextColor(3)}}>4. Зазор (исходный)</button>
+        <button name="model_5" onClick={() => ModelShow(4)} style={{color: btnTextColor(4, !modelsAvailable[4])}} disabled={!modelsAvailable[4]}>5. Износ профиля валков</button>
+        <button name="model_6" onClick={() => ModelShow(5)} style={{color: btnTextColor(5, !modelsAvailable[5])}} disabled={!modelsAvailable[5]}>6. Износ + зазоры</button>
+        <button name="model_7" onClick={() => ModelShow(6)} style={{color: btnTextColor(6)}}>7. Модель распределения температур в валке</button>
+        <button name="model_8" onClick={() => ModelShow(7)} style={{color: btnTextColor(7, !modelsAvailable[7])}} disabled={!modelsAvailable[7]}>8. Растяжение (деформация) в валках</button>
+        <button name="model_9" onClick={() => ModelShow(8)} style={{color: btnTextColor(8, !modelsAvailable[8])}} disabled={!modelsAvailable[8]}>9. Растяжение (расширение) полосы</button>
+        <button name="model_10" onClick={() => ModelShow(9)} style={{color: btnTextColor(9, !modelsAvailable[9])}} disabled={!modelsAvailable[9]}>10. Модель профиля полосы без износа валков</button>
         <button name="model_11" disabled={true}>11.	Износ валка</button>
         <button name="model_12" disabled={true}>12.	Модель расчета кромок полосы</button>
         <button name="model_13" disabled={true}>13.	Расчет профиля полосы</button>
