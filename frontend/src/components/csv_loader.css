@@ -47,3 +47,21 @@ h2 {
     font-size: 16px;
     width: 220px;
 }
+
+.tech_data_input {
+    float: none;
+    margin-right: 0em;
+    height: 100%;
+}
+
+.strip_input {
+    float: none;
+    margin-right: 0em;
+    height: 100%;
+}
+
+.swath_input {
+    float: none;
+    margin-right: 0em;
+    height: 100%;
+}

@@ -4,28 +4,6 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
-.latexsymbols {
-    margin-left: 2em;
-    display: grid;
-    float: left;
-}
-
-.latexsymbols * {
-    margin-bottom: 2px;
-}
-
-.inputs * {
-    margin-bottom: 22px;
-}
-
-.inputs {
-    margin-top: 8px;
-    float: right;
-    margin-right: 8em;
-    display: grid;
-    width: 10%;
-}
-
 h1 {
     text-align: center;
     font-family: Tinos;
@@ -41,11 +19,17 @@ h2 {
 }
 
 input {
-    margin-left: 10px;
     background-color: #FFFFFF;
     border-radius: 0px;
     border: 1px solid;
     border-color: #ddd;
+    float: right;
+    margin-right: 2em;
+    margin-left: auto;
+}
+
+.modelinputs {
+    margin-left: 2em;
 }
 
 input:focus{
@@ -53,8 +37,9 @@ input:focus{
 }
 
 input[type='checkbox'] {
-    width: 7%;
-    outline: 0px;
+    border: 1px solid black;
+    outline: 2px;
+    margin-right: 8em;
 }
 
 
@@ -75,7 +60,7 @@ input[type='checkbox'] {
 
 .inputbuttons {
     text-align: center;
-    margin-top: 5px;
+    margin-top: 15px;
     margin-bottom: 15px;
 }
 
@@ -88,4 +73,9 @@ input[type='checkbox'] {
     margin-right: 25px;
     height: 30px;
     width: 130px;
+}
+
+.inputcell {
+    display: flex;
+    align-items: center;
 }
