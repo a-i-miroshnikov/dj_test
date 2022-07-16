@@ -5,7 +5,9 @@
     float: left;
 }
 
-
+.workingWindow {
+    display: grid;
+}
 
 .modelsbuttons * {
     padding: 4px 4px;

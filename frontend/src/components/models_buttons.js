@@ -2,72 +2,52 @@ import '../App.css';
 import './models_buttons.css';
 import React, {useEffect, useState, useMemo} from "react";
 import axios from "axios";
-import {Model1, Model2, Model3, Model4, Model5, Model6} from "./models";
+import {Model1, Model2, Model3, Model4, Model5, Model6, Model7} from "./models";
 import {CsvLoader} from "./csv_loader";
 
 const ModelsButtons = () => {
 
   const FinishedModelsNum = 10;
 
+  const ModelShow = modelIndex => {
+    const stateFuncs = [
+      Model1SetIsShown,
+      Model2SetIsShown,
+      Model3SetIsShown,
+      Model4SetIsShown,
+      Model5SetIsShown,
+      Model6SetIsShown,
+      Model7SetIsShown,
+    ]
+    for (let i = 0; i < stateFuncs.length; i++) {
+      if (i === modelIndex) {
+        stateFuncs[i](true);
+        continue;
+      }
+      stateFuncs[i](false);
+    }
+  }
+
   const [Model1IsShown, Model1SetIsShown] = useState(true);
-  const Model1Show = () => {
-    Model1SetIsShown(true);
-    Model2SetIsShown(false);
-    Model3SetIsShown(false);
-    Model4SetIsShown(false);
-    Model5SetIsShown(false);
-    Model6SetIsShown(false);
-  };
+  const Model1Show = () => ModelShow(0);
 
   const [Model2IsShown, Model2SetIsShown] = useState(false);
-  const Model2Show = () => {
-    Model1SetIsShown(false);
-    Model2SetIsShown(true);
-    Model3SetIsShown(false);
-    Model4SetIsShown(false);
-    Model5SetIsShown(false);
-    Model6SetIsShown(false);
-  };
+  const Model2Show = () => ModelShow(1);
 
   const [Model3IsShown, Model3SetIsShown] = useState(false);
-  const Model3Show = () => {
-    Model1SetIsShown(false);
-    Model2SetIsShown(false);
-    Model3SetIsShown(true);
-    Model4SetIsShown(false);
-    Model5SetIsShown(false);
-    Model6SetIsShown(false);
-  };
+  const Model3Show = () => ModelShow(2);
 
   const [Model4IsShown, Model4SetIsShown] = useState(false);
-  const Model4Show = () => {
-    Model1SetIsShown(false);
-    Model2SetIsShown(false);
-    Model3SetIsShown(false);
-    Model4SetIsShown(true);
-    Model5SetIsShown(false);
-    Model6SetIsShown(false);
-  };
+  const Model4Show = () => ModelShow(3);
 
   const [Model5IsShown, Model5SetIsShown] = useState(false);
-  const Model5Show = () => {
-    Model1SetIsShown(false);
-    Model2SetIsShown(false);
-    Model3SetIsShown(false);
-    Model4SetIsShown(false);
-    Model5SetIsShown(true);
-    Model6SetIsShown(false);
-  };
+  const Model5Show = () => ModelShow(4);
 
   const [Model6IsShown, Model6SetIsShown] = useState(false);
-  const Model6Show = () => {
-    Model1SetIsShown(false);
-    Model2SetIsShown(false);
-    Model3SetIsShown(false);
-    Model4SetIsShown(false);
-    Model5SetIsShown(false);
-    Model6SetIsShown(true);
-  };
+  const Model6Show = () => ModelShow(5);
+
+  const [Model7IsShown, Model7SetIsShown] = useState(false);
+  const Model7Show = () => ModelShow(6);
 
   const [modelsAvailable, setModelsAvailable] = useState([]);
 
@@ -109,7 +89,7 @@ const ModelsButtons = () => {
         <button name="model_4" onClick={Model4Show} style={Model4IsShown ? {color: "#f2e19e"} : {color: "#F2F2F2"}}>4. Зазор (исходный)</button>
         <button name="model_5" onClick={Model5Show} style={Model5IsShown ? {color: "#f2e19e"} : {color: "#F2F2F2"}} disabled={!modelsAvailable[4]}>5. Износ профиля валков</button>
         <button name="model_6" onClick={Model6Show} style={Model6IsShown ? {color: "#f2e19e"} : {color: "#F2F2F2"}} disabled={!modelsAvailable[5]}>6. Износ + зазоры</button>
-        <button name="model_7">7. Модель распределения температур в валке</button>
+        <button name="model_7" onClick={Model7Show} style={Model7IsShown ? {color: "#f2e19e"} : {color: "#F2F2F2"}}>7. Модель распределения температур в валке</button>
         <button name="model_8" disabled={!modelsAvailable[7]}>8. Растяжение (деформация) в валках</button>
         <button name="model_9" disabled={!modelsAvailable[8]}>9. Растяжение (расширение) полосы</button>
         <button name="model_10" disabled={!modelsAvailable[9]}>10. Модель профиля полосы без износа валков</button>
@@ -129,6 +109,7 @@ const ModelsButtons = () => {
         {Model4IsShown && <Model4/>}
         {Model5IsShown && <Model5/>}
         {Model6IsShown && <Model6/>}
+        {Model7IsShown && <Model7/>}
         <CsvLoader/>
         <br/>
         <br/>

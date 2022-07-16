@@ -4,10 +4,34 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+.latexsymbols {
+    margin-left: 2em;
+    display: grid;
+    float: left;
+}
+
+.latexsymbols * {
+    margin-bottom: 2px;
+}
+
+.inputs * {
+    margin-bottom: 22px;
+}
+
+.inputs {
+    margin-top: 8px;
+    float: right;
+    margin-right: 8em;
+    display: grid;
+    width: 10%;
+}
+
 h1 {
+    text-align: center;
     font-family: Tinos;
     font-size: 24px;
     font-weight: normal;
+    padding-bottom: 5px;
 }
 
 h2 {
@@ -28,26 +52,31 @@ input:focus{
     outline: 1px solid black;
 }
 
-.modelwindow {
-    margin: 1em;
+input[type='checkbox'] {
+    width: 7%;
+    outline: 0px;
 }
 
-.modelinputs {
-    text-align: center;
-    margin-left: 5em;
-    margin-top: 2em;
+
+.modelinputswindow {
+    float: left;
+    margin: auto;
+    display: grid;
+    text-align: left;
     color: inherit;
     font-family: Tinos;
     font-size: 24px;
     border: 1px solid #ddd;
-    width: 26%;
+    width: 450px;
     padding: 5px 5px;
     border-radius: 0px;
     background-color: #F9F9F9;
 }
 
-.modelinputs * {
-    margin-bottom: 2px;
+.inputbuttons {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 15px;
 }
 
 .inputbuttons * {
@@ -55,8 +84,8 @@ input:focus{
     font-family: Tinos;
     font-size: 22px;
     font-weight: normal;
-    margin: 20px;
-    height: 38px;
-    width: 160px;
-    text-align: center;
+    margin-left: 25px;
+    margin-right: 25px;
+    height: 30px;
+    width: 130px;
 }
