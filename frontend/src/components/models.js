@@ -42,8 +42,7 @@ const Model1 = () => {
       })
   }, []);
 
-  const ArgsSubmit = (e) => {
-    e.preventDefault();
+  const ArgsSubmit = () => {
     if (!(x.current.value &&
       w.current.value &&
       xi_p.current.value &&
@@ -53,6 +52,7 @@ const Model1 = () => {
       z_p.current.value &&
       z_c.current.value &&
       z_m.current.value &&
+      z_e.current.value &&
       W12_average.current.value)
     ) {
       alert("Введите все необходимые параметры!");
@@ -92,7 +92,7 @@ const Model1 = () => {
   return (
     <div className="modelwindow">
       <h2 style={{textDecoration: "underline"}}>1. Распределение контактного давления валков</h2>
-      <form className="modelinputswindow">
+      <div className="modelinputswindow">
         <h1>Задаваемые пользователями параметры:</h1>
         <div className="modelinputs">
           <div className="inputcell">
@@ -141,10 +141,19 @@ const Model1 = () => {
           </div>
         </div>
         <div className='inputbuttons'>
-          <button className="saveinputs" onClick={e => ArgsSubmit(e)}>Сохранить</button>
+          <button className="saveinputs" onClick={() => ArgsSubmit()}>Сохранить</button>
           <button className="loadmodel">Вычислить</button>
         </div>
-      </form>
+      </div>
+      <div className="modelresultswindow">
+        <h1>Результаты вычислений:</h1>
+        <div className="results">
+          <div className="inputcell">
+            <Latex>$$Apl(w)$$</Latex>
+            <textarea></textarea>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

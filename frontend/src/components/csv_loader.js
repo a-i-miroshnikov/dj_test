@@ -21,8 +21,7 @@ const CsvLoader = () => {
   const strip = useRef();
   const swath = useRef();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     if (!(techData.current.value && strip.current.value && swath.current.value)) {
       alert("Загрузите все необходимые файлы!");
       return;
@@ -76,7 +75,7 @@ const CsvLoader = () => {
         <h2>Профиль валка</h2>
         <input ref={swath} className="swath_input" type="file"/>
       </div>
-      <button className="savecsv" onClick={e => handleSubmit(e)}>Сохранить</button>
+      <button className="savecsv" onClick={() => handleSubmit()}>Сохранить</button>
     </div>
   );
 }

@@ -58,6 +58,21 @@ input[type='checkbox'] {
     background-color: #F9F9F9;
 }
 
+.modelresultswindow {
+    float: right;
+    margin: auto;
+    display: grid;
+    text-align: left;
+    color: inherit;
+    font-family: Tinos;
+    font-size: 22px;
+    border: 1px solid #ddd;
+    width: 450px;
+    padding: 5px 5px;
+    border-radius: 0px;
+    background-color: #F9F9F9;
+}
+
 .inputbuttons {
     text-align: center;
     margin-top: 15px;

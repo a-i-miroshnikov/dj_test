@@ -107,9 +107,6 @@ const ModelsButtons = () => {
         <br/>
         <br/>
       </div>
-      <br/>
-      <br/>
-      <br/>
     </div>
   );
 }
