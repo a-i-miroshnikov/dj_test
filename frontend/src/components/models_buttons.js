@@ -8,6 +8,16 @@ import {CsvLoader} from "./csv_loader";
 const ModelsButtons = () => {
 
   const FinishedModelsNum = 10;
+  const api_url = "http://localhost:8000/api/model_"
+
+  const ModelIsShowInitState = () => {
+    const InitList = [true];
+    if (localStorage.getItem("ModelShow"))
+      return JSON.parse(localStorage.getItem("ModelShow"));
+    else
+      for (let i = 1; i < FinishedModelsNum; i++) InitList.push(false);
+      return InitList;
+  }
 
   const ModelShow = modelIndex => {
     const ModelIsShowState = [];
@@ -20,19 +30,18 @@ const ModelsButtons = () => {
     ModelSetIsShown(ModelIsShowState);
   }
 
-  let ModelIsShowInitState = [];
+  const [ModelIsShown, ModelSetIsShown] = useState(() => {
+    return ModelIsShowInitState();
+  });
 
-  if (localStorage.getItem("ModelShow"))
-    ModelIsShowInitState = JSON.parse(localStorage.getItem("ModelShow"));
-  else
-    for (let i = 0; i < FinishedModelsNum; i++) ModelIsShowInitState.push(false);
+  const [modelsAvailable, setModelsAvailable] = useState(() => []);
 
-  const [ModelIsShown, ModelSetIsShown] = useState(ModelIsShowInitState);
-
-  const [modelsAvailable, setModelsAvailable] = useState([]);
+  const btnTextColor = (modelIndex, disabled = false) => {
+    if (disabled) return "#666666"
+    return ModelIsShown[modelIndex] ? "#f2e19e" : "#F2F2F2"
+  }
 
   const PromiseArr = useMemo(() => [], []);
-  const api_url = "http://localhost:8000/api/model_"
 
   for (let i = 1; i <= FinishedModelsNum; i++) {
     PromiseArr.push(
@@ -59,11 +68,6 @@ const ModelsButtons = () => {
 
   if (!modelsAvailable[1] || !modelsAvailable[3] || !modelsAvailable[6] || !modelsAvailable[7])
     modelsAvailable[9] = !modelsAvailable[9] ? false : true;
-
-  const btnTextColor = (modelIndex, disabled = false) => {
-    if (disabled) return "#666666"
-    return ModelIsShown[modelIndex] ? "#f2e19e" : "#F2F2F2"
-  }
 
   return (
     <div className="App">

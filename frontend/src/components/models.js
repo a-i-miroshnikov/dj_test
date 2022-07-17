@@ -1,8 +1,93 @@
 import './models.css'
+import React, {useState, useEffect, useRef} from "react";
+import axios from "axios";
 var Latex = require("react-latex");
 
 const Model1 = () => {
   const W12_averageShow = "$$W12_{average}$$";
+
+  const argsUrl = "http://localhost:8000/api/model_1_args/";
+  const modelUrl = "http://localhost:8000/api/model_1/";
+
+  const x = useRef();
+  const w = useRef();
+  const xi_p = useRef();
+  const xi_c = useRef();
+  const xi_m = useRef();
+  const z_0 = useRef();
+  const z_p = useRef();
+  const z_c = useRef();
+  const z_m = useRef();
+  const z_e = useRef();
+  const W12_average = useRef();
+
+  useEffect(() => {
+    axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          x.current.value = data.x;
+          w.current.value = data.w;
+          xi_p.current.value = data.xi_p;
+          xi_c.current.value = data.xi_c;
+          xi_m.current.value = data.xi_m;
+          z_0.current.value = data.z_0;
+          z_p.current.value = data.z_p;
+          z_c.current.value = data.z_c;
+          z_m.current.value = data.z_m;
+          z_e.current.value = data.z_e;
+          W12_average.current.value = data.W12_average;
+        }
+      })
+  }, []);
+
+  const ArgsSubmit = (e) => {
+    e.preventDefault();
+    if (!(x.current.value &&
+      w.current.value &&
+      xi_p.current.value &&
+      xi_c.current.value &&
+      xi_m.current.value &&
+      z_0.current.value &&
+      z_p.current.value &&
+      z_c.current.value &&
+      z_m.current.value &&
+      W12_average.current.value)
+    ) {
+      alert("Введите все необходимые параметры!");
+      return;
+    }
+    if (!window.confirm("Сохранить введенные параметры?")) return;
+
+    axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          for (let i of res.data)
+            axios.delete(argsUrl + i.id);
+        }
+        console.log("Model_1_args: Старые параметры очищены.");
+      })
+      .catch(err => console.warn(err))
+
+    axios
+      .post(argsUrl, {
+        x: x.current.value,
+        w: w.current.value,
+        xi_p: xi_p.current.value,
+        xi_c: xi_c.current.value,
+        xi_m: xi_m.current.value,
+        z_0: z_0.current.value,
+        z_p: z_p.current.value,
+        z_c: z_c.current.value,
+        z_m: z_m.current.value,
+        z_e: z_e.current.value,
+        W12_average: W12_average.current.value,
+      })
+      .then(res => console.log("Model_1_args: Новые параметры загружены."))
+      .catch(err => console.warn(err))
+  };
 
   return (
     <div className="modelwindow">
@@ -12,52 +97,52 @@ const Model1 = () => {
         <div className="modelinputs">
           <div className="inputcell">
             <Latex>$$x$$</Latex>
-            <input type="number" id="x_input"/>
+            <input type="number" ref={x} id="x_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$w$$</Latex>
-            <input type="number" id="w_input"/>
+            <input type="number" ref={w} id="w_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$\xi_p$$</Latex>
-            <input type="number" id="xi_p_input"/>
+            <input type="number" ref={xi_p} id="xi_p_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$\xi_c$$</Latex>
-            <input type="number" id="xi_c_input"/>
+            <input type="number" ref={xi_c} id="xi_c_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$\xi_m$$</Latex>
-            <input type="number" id="xi_m_input"/>
+            <input type="number" ref={xi_m} id="xi_m_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$z_0$$</Latex>
-            <input type="number" id="z_0_input"/>
+            <input type="number" ref={z_0} id="z_0_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$z_p$$</Latex>
-            <input type="number" id="z_p_input"/>
+            <input type="number" ref={z_p} id="z_p_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$z_c$$</Latex>
-            <input type="number" id="z_c_input"/>
+            <input type="number" ref={z_c} id="z_c_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$z_m$$</Latex>
-            <input type="number" id="z_m_input"/>
+            <input type="number" ref={z_m} id="z_m_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$z_e$$</Latex>
-            <input type="number" id="z_e_input"/>
+            <input type="number" ref={z_e} id="z_e_input"/>
           </div>
           <div className="inputcell">
             <Latex>{W12_averageShow}</Latex>
-            <input type="checkbox" id="W12_average_input"/>
+            <input type="checkbox" ref={W12_average} id="W12_average_input"/>
           </div>
         </div>
         <div className='inputbuttons'>
-          <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="saveinputs" onClick={e => ArgsSubmit(e)}>Сохранить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </form>
     </div>
@@ -117,7 +202,7 @@ const Model2 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </div>
     </div>
@@ -154,7 +239,7 @@ const Model3 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </div>
     </div>
@@ -186,7 +271,7 @@ const Model4 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </div>
     </div>
@@ -221,7 +306,7 @@ const Model5 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </div>
     </div>
@@ -248,7 +333,7 @@ const Model6 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </form>
     </div>
@@ -319,7 +404,7 @@ const Model7 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </form>
     </div>
@@ -388,7 +473,7 @@ const Model8 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </form>
     </div>
@@ -425,7 +510,7 @@ const Model9 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </form>
     </div>
@@ -452,7 +537,7 @@ const Model10 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Загрузить</button>
+          <button className="loadmodel">Вычислить</button>
         </div>
       </form>
     </div>

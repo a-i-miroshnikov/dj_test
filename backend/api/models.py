@@ -5,7 +5,6 @@ from scipy import integrate
 import math
 from tqdm import tqdm
 import simplejson as json
-import quadpy
 
 def get_tech_value(tech_name, tech_path, average=False):
     """
@@ -54,8 +53,8 @@ class Model1(models.Model):
     1. Распределение контактного давления валков
     """
 
-    args = models.ForeignKey(Model1Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model1Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     Bpl = models.TextField(blank=True)
@@ -187,8 +186,8 @@ class Model2(models.Model):
     2. Профиль валков (по Целикову) изгиб валков
     """
 
-    args = models.ForeignKey(Model2Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model2Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     aHC = models.FloatField(blank = True)
@@ -301,8 +300,8 @@ class Model3(models.Model):
     3. Смещение валков от (оси полосы или начального положения)
     """
 
-    args = models.ForeignKey(Model3Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model3Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     uGc0 = models.FloatField(blank = True)
@@ -355,8 +354,8 @@ class Model4(models.Model):
     4. Зазор (исходный)
     """
 
-    args = models.ForeignKey(Model4Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model4Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     l_w = models.FloatField(blank = True)
@@ -472,7 +471,7 @@ class Model4(models.Model):
 class Model5Args(models.Model):
     x = models.FloatField()
     sh = models.FloatField()
-    model4 = models.ForeignKey(Model4, on_delete=models.CASCADE)
+    model4 = models.ForeignKey(Model4, on_delete=models.SET_NULL, null=True)
     W12_average = models.BooleanField(default=False)
     S_x = models.FloatField()
 
@@ -481,8 +480,8 @@ class Model5(models.Model):
     5. Износ профиля валков
     """
 
-    args = models.ForeignKey(Model5Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model5Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     W_c = models.FloatField(blank = True)
@@ -532,15 +531,15 @@ class Model5(models.Model):
 class Model6Args(models.Model):
     L_wr = models.FloatField()
     z = models.FloatField()
-    model4 = models.ForeignKey(Model4, on_delete=models.CASCADE)
+    model4 = models.ForeignKey(Model4, on_delete=models.SET_NULL, null=True)
 
 class Model6(models.Model):
     """
     6. Износ + зазоры
     """
 
-    args = models.ForeignKey(Model6Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model6Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     result = models.FloatField(blank = True)
@@ -605,8 +604,8 @@ class Model7(models.Model):
     7. Модель распределения температур в валке
     """
 
-    args = models.ForeignKey(Model7Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model7Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     W_c = models.FloatField(blank = True)
@@ -785,17 +784,17 @@ class Model8Args(models.Model):
     P12_average = models.BooleanField(default=False)
     D12bot_average = models.BooleanField(default=False)
     D12top_average = models.BooleanField(default=False)
-    model2 = models.ForeignKey(Model2, on_delete=models.CASCADE)
-    model7 = models.ForeignKey(Model7, on_delete=models.CASCADE)
-    model1 = models.ForeignKey(Model1, on_delete=models.CASCADE)
+    model2 = models.ForeignKey(Model2, on_delete=models.SET_NULL, null=True)
+    model7 = models.ForeignKey(Model7, on_delete=models.SET_NULL, null=True)
+    model1 = models.ForeignKey(Model1, on_delete=models.SET_NULL, null=True)
 
 class Model8(models.Model):
     """
     8. Растяжение (деформация) в валках
     """
 
-    args = models.ForeignKey(Model8Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model8Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     Lambda = models.FloatField(blank = True)
@@ -974,16 +973,16 @@ class Model9Args(models.Model):
     H12_average = models.BooleanField(default=False)
     V11_average = models.BooleanField(default=False)
     V12_average = models.BooleanField(default=False)
-    model1 = models.ForeignKey(Model1, on_delete=models.CASCADE)
-    model8 = models.ForeignKey(Model8, on_delete=models.CASCADE)
+    model1 = models.ForeignKey(Model1, on_delete=models.SET_NULL, null=True)
+    model8 = models.ForeignKey(Model8, on_delete=models.SET_NULL, null=True)
 
 class Model9(models.Model):
     """
     9. Растяжение (расширение) полосы
     """
 
-    args = models.ForeignKey(Model9Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model9Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     h_1 = models.FloatField(blank = True)
@@ -1057,18 +1056,18 @@ class Model9(models.Model):
 class Model10Args(models.Model):
     S_x = models.FloatField()
     W12_average = models.BooleanField(default=False)
-    model2 = models.ForeignKey(Model2, on_delete=models.CASCADE)
-    model8 = models.ForeignKey(Model8, on_delete=models.CASCADE)
-    model7 = models.ForeignKey(Model7, on_delete=models.CASCADE)
-    model4 = models.ForeignKey(Model4, on_delete=models.CASCADE)
+    model2 = models.ForeignKey(Model2, on_delete=models.SET_NULL, null=True)
+    model8 = models.ForeignKey(Model8, on_delete=models.SET_NULL, null=True)
+    model7 = models.ForeignKey(Model7, on_delete=models.SET_NULL, null=True)
+    model4 = models.ForeignKey(Model4, on_delete=models.SET_NULL, null=True)
 
 class Model10(models.Model):
     """
     10. Модель профиля полосы без износа валков
     """
 
-    args = models.ForeignKey(Model10Args, on_delete=models.CASCADE)
-    csv = models.ForeignKey(CsvData, on_delete=models.CASCADE)
+    args = models.ForeignKey(Model10Args, on_delete=models.SET_NULL, null=True)
+    csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
     W_c = models.FloatField(blank = True)
