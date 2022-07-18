@@ -57,6 +57,8 @@ class Model1(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
+    Apl_res = models.TextField(blank=True)
+    v_res = models.TextField(blank=True)
     Bpl = models.TextField(blank=True)
     W_c = models.FloatField(blank=True)
     little_w_c = models.FloatField(blank=True)
@@ -125,6 +127,7 @@ class Model1(models.Model):
         self.result = self.K_px(self.x, self.w)
 
         # Форматирование для БД
+        self.Apl_res = json.dumps(self.Apl_res)
         self.Bpl = json.dumps(self.Bpl)
 
         super().save(*args, **kwargs)
@@ -144,6 +147,7 @@ class Model1(models.Model):
 
     # №3
     def v(self, w):
+        self.Apl_res = self.Apl(w)
         return np.matmul(np.linalg.inv(self.Apl(w)), json_clear(self.Bpl))
 
     # №4

@@ -94,3 +94,38 @@ input[type='checkbox'] {
     display: flex;
     align-items: center;
 }
+
+.rescell {
+    display: flex;
+    align-items: center;
+}
+
+.algonum {
+    float: left;
+    width: 40px;
+}
+
+.algores {
+    float: left;
+}
+
+.results {
+    margin-left: 10px;
+}
+
+.warningresults {
+    margin-top: 0px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-family: Tinos;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.resarea {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 2em;
+    justify-content: right;
+}

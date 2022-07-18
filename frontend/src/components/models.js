@@ -21,6 +21,50 @@ const Model1 = () => {
   const z_e = useRef();
   const W12_average = useRef();
 
+  const Apl = useRef();
+  const Args = useRef(false);
+  const Csv = useRef();
+  const [modelExist, setModelExist] = useState(false);
+  const [warnOldParams, setWarnOldParams] = useState(false);
+
+  useEffect(() => {
+
+    axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Args.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+
+    axios
+      .get("http://localhost:8000/api/csv/")
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Csv.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+  }, [])
+
+  useEffect( () => {
+    axios
+      .get(modelUrl)
+      .then(res => {
+        if (res.data.length) {
+          setModelExist(true);
+          const data = res.data[res.data.length - 1];
+          Apl.current.value = data.Apl_res;
+          if (data.args === null || data.csv === null)
+            setWarnOldParams(true);
+        }
+      })
+      .catch(err => console.warn(err))
+  }, [])
+
   useEffect(() => {
     axios
       .get(argsUrl)
@@ -37,12 +81,12 @@ const Model1 = () => {
           z_c.current.value = data.z_c;
           z_m.current.value = data.z_m;
           z_e.current.value = data.z_e;
-          W12_average.current.value = data.W12_average;
+          W12_average.current.checked = data.W12_average;
         }
       })
-  }, []);
+  }, [])
 
-  const ArgsSubmit = () => {
+  const ArgsSubmit = async () => {
     if (!(x.current.value &&
       w.current.value &&
       xi_p.current.value &&
@@ -52,15 +96,14 @@ const Model1 = () => {
       z_p.current.value &&
       z_c.current.value &&
       z_m.current.value &&
-      z_e.current.value &&
-      W12_average.current.value)
+      z_e.current.value)
     ) {
       alert("Введите все необходимые параметры!");
       return;
     }
     if (!window.confirm("Сохранить введенные параметры?")) return;
 
-    axios
+    await axios
       .get(argsUrl)
       .then(res => {
         if (res.data.length) {
@@ -71,7 +114,7 @@ const Model1 = () => {
       })
       .catch(err => console.warn(err))
 
-    axios
+    await axios
       .post(argsUrl, {
         x: x.current.value,
         w: w.current.value,
@@ -83,11 +126,77 @@ const Model1 = () => {
         z_c: z_c.current.value,
         z_m: z_m.current.value,
         z_e: z_e.current.value,
-        W12_average: W12_average.current.value,
+        W12_average: W12_average.current.checked,
       })
-      .then(res => console.log("Model_1_args: Новые параметры загружены."))
+      .then(res => {
+        console.log("Model_1_args: Новые параметры загружены.");
+        Args.current = res.data.id;
+        setWarnOldParams(true);
+      })
       .catch(err => console.warn(err))
-  };
+  }
+
+  const handleCalc = async () => {
+
+    if (!window.confirm("Запустить вычисления?")) return;
+
+    await axios
+      .get(argsUrl)
+      .then(async (res) => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          if (+x.current.value !== data.x ||
+            +w.current.value !== data.w ||
+            +xi_p.current.value !== data.xi_p ||
+            +xi_c.current.value !== data.xi_c ||
+            +xi_m.current.value !== data.xi_m ||
+            +z_0.current.value !== data.z_0 ||
+            +z_p.current.value !== data.z_p ||
+            +z_c.current.value !== data.z_c ||
+            +z_m.current.value !== data.z_m ||
+            +z_e.current.value !== data.z_e ||
+            W12_average.current.checked !== data.W12_average
+          ) {
+            if (!window.confirm("Новые параметры не сохранены. " +
+              "Модель будет рассчитана на основе старых данных. " +
+              "Использовать новые параметры?"))
+              alert("Вычисления будут происходить со старыми параметрами!");
+            else
+              await ArgsSubmit();
+          }
+        }
+      })
+
+    if (!Args.current || !Csv.current) {
+      alert("Заполните все параметры и загрузите csv файлы!");
+      return;
+    }
+
+    await axios
+      .get(modelUrl)
+      .then(res => {
+        if (res.data.length) {
+          for (let i of res.data)
+            axios.delete(modelUrl + i.id);
+        }
+        console.log("Model_1: Старые параметры очищены.");
+      })
+      .catch(err => console.warn(err))
+
+    await axios
+      .post(modelUrl, {
+        args: Args.current,
+        csv: Csv.current,
+      })
+      .then(res => {
+        console.log("Model_1: Вычисления прошли успешно.");
+        alert("Вычисления прошли успешно.");
+        setWarnOldParams(false);
+        setModelExist(true);
+      })
+      .catch(err => console.warn(err))
+
+  }
 
   return (
     <div className="modelwindow">
@@ -142,15 +251,21 @@ const Model1 = () => {
         </div>
         <div className='inputbuttons'>
           <button className="saveinputs" onClick={() => ArgsSubmit()}>Сохранить</button>
-          <button className="loadmodel">Вычислить</button>
+          <button className="loadmodel" onClick={() => handleCalc()}>Вычислить</button>
         </div>
       </div>
       <div className="modelresultswindow">
         <h1>Результаты вычислений:</h1>
-        <div className="results">
-          <div className="inputcell">
-            <Latex>$$Apl(w)$$</Latex>
-            <textarea></textarea>
+        {warnOldParams && modelExist && <p className="warningresults">⚠ Модель рассчитана на основе старых данных!</p>}
+        {!modelExist && <p className="warningresults">⚠ Сначала нажмите кнопку "Вычислить".</p>}
+        <div className="results" style={{display: modelExist ? "grid" : "none"}}>
+          <Latex>$$№ \; \; Алгоритм$$</Latex>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$1.$$</Latex></div>
+            <div className="algores"><Latex>$$Apl(w)=$$</Latex></div>
+            <div className="resarea">
+              <textarea ref={Apl} style={{height: "20px", width: "200px",resize: "none"}}></textarea>
+            </div>
           </div>
         </div>
       </div>
