@@ -264,9 +264,23 @@ const Model1 = () => {
             <div className="algonum"><Latex>$$1.$$</Latex></div>
             <div className="algores"><Latex>$$Apl(w)=$$</Latex></div>
             <div className="resarea">
-              <textarea ref={Apl} style={{height: "20px", width: "200px",resize: "none"}}></textarea>
+              <button className="showres" onClick={e => {
+                const AplContent = document.querySelector(".modalcontent1");
+                AplContent.style.display = "inline-block";
+                const ModalToOn = document.querySelector(".modal");
+                ModalToOn.style.display = "flex";
+              }}>Показать массив</button>
             </div>
           </div>
+        </div>
+      </div>
+      <div className="modal" onClick={e => {
+        e.currentTarget.style.display = "none";
+        const AplContent = document.querySelector(".modalcontentApl");
+        AplContent.style.display = "none";
+      }} style={{display: "none"}}>
+        <div className="modalcontent1" onClick={e => e.stopPropagation()}>
+          <textarea ref={Apl} style={{height: "100px", width: "400px",resize: "none"}}></textarea>
         </div>
       </div>
     </div>

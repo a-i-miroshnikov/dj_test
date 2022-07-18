@@ -129,3 +129,37 @@ input[type='checkbox'] {
     margin-right: 2em;
     justify-content: right;
 }
+
+.showres {
+    text-align: center;
+    border: 1px solid #ddd;
+    font-family: Tinos;
+    font-size: 22px;
+    font-weight: normal;
+    height: 30px;
+    width: 200px;
+}
+
+.modal {
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.4);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modalcontent1 {
+    padding: 10px;
+    border: 1px solid #ddd;
+    background-color: #F9F9F9;
+}
+
+.modalcontent1 * {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
