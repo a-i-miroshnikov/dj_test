@@ -18,6 +18,14 @@ h2 {
     font-weight: normal;
 }
 
+h5 {
+    float: left;
+    text-align: center;
+    font-family: Tinos;
+    font-weight: normal;
+    margin-top: 0;
+}
+
 input {
     background-color: #FFFFFF;
     border-radius: 0px;
@@ -107,6 +115,7 @@ input[type='checkbox'] {
 
 .algores {
     float: left;
+    width: 150px;
 }
 
 .results {
@@ -156,13 +165,13 @@ input[type='checkbox'] {
     justify-content: center;
 }
 
-.modalcontent1 {
+div[class^='modalcontent'], div[class*='modalcontent'] {
     padding: 10px;
     border: 1px solid #ddd;
     background-color: #F9F9F9;
 }
 
-.modalcontent1 * {
+div[class^='modalcontent'], div[class*='modalcontent'] * {
     display: flex;
     align-items: center;
     justify-content: center;

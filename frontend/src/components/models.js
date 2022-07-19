@@ -6,6 +6,9 @@ var Latex = require("react-latex");
 const Model1 = () => {
   const W12_averageShow = "$$W12_{average}$$";
 
+  const K_pnorm = "$$K_{pnorm}$$";
+  const K_px = "$$K_{px} (x, w)$$";
+
   const argsUrl = "http://localhost:8000/api/model_1_args/";
   const modelUrl = "http://localhost:8000/api/model_1/";
 
@@ -23,6 +26,13 @@ const Model1 = () => {
 
   const res1 = useRef();
   const res2 = useRef();
+  const res3 = useRef();
+  const res4 = useRef();
+  const res5 = useRef();
+  const res6 = useRef();
+  const res7 = useRef();
+  const res8 = useRef();
+  const res9 = useRef();
   const Args = useRef(false);
   const Csv = useRef();
   const [modelExist, setModelExist] = useState(false);
@@ -60,6 +70,13 @@ const Model1 = () => {
           const data = res.data[res.data.length - 1];
           res1.current.value = data.Apl_res;
           res2.current.value = data.Bpl;
+          res3.current.value = data.v_res;
+          res4.current= data.f_c_res;
+          res5.current = data.f_e_res;
+          res6.current = data.Kxl_res;
+          res7.current = data.Kx_res;
+          res8.current = data.K_pnorm;
+          res9.current = data.K_px_res;
           if (data.args === null || data.csv === null)
             setWarnOldParams(true);
         }
@@ -214,7 +231,8 @@ const Model1 = () => {
         setWarnOldParams(false);
         setModelExist(true);
         console.log("Model_1: Вычисления прошли успешно.");
-        setTimeout(() => { alert("Вычисления прошли успешно.") }, 250);;
+        alert("Вычисления прошли успешно.")
+        setTimeout(() => { window.location.reload() }, 250);
       })
       .catch(err => console.warn(err))
 
@@ -297,23 +315,63 @@ const Model1 = () => {
           <Latex>$$№ \; \; Алгоритм$$</Latex>
           <div className="rescell">
             <div className="algonum"><Latex>$$1.$$</Latex></div>
-            <div className="algores"><Latex>$$Apl(w)$$</Latex></div>
+            <div><Latex>$$Apl(w)$$</Latex></div>
             <div className="resarea">
               <button className="showres" onClick={() => handleShowModal(".modalcontent1")}>Показать массив</button>
             </div>
           </div>
           <div className="rescell">
             <div className="algonum"><Latex>$$2.$$</Latex></div>
-            <div className="algores"><Latex>$$Bpl$$</Latex></div>
+            <div><Latex>$$Bpl$$</Latex></div>
             <div className="resarea">
               <textarea ref={res2} style={{height: "30px", width: "200px", resize: "none"}}></textarea>
             </div>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$3.$$</Latex></div>
+            <div><Latex>$$v(w)$$</Latex></div>
+            <div className="resarea">
+              <button className="showres" onClick={() => handleShowModal(".modalcontent2")}>Показать массив</button>
+            </div>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$4.$$</Latex></div>
+            <div className="algores"><Latex>$$f_c (x, w)$$</Latex></div>
+            <h5>{res4.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$5.$$</Latex></div>
+            <div className="algores"><Latex>$$f_e (x, w)$$</Latex></div>
+            <h5>{res5.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$6.$$</Latex></div>
+            <div className="algores"><Latex>$$Kxl (x, w)$$</Latex></div>
+            <h5>{res6.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$7.$$</Latex></div>
+            <div className="algores"><Latex>$$Kx (x, w)$$</Latex></div>
+            <h5>{res7.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$8.$$</Latex></div>
+            <div className="algores"><Latex>{K_pnorm}</Latex></div>
+            <h5>{res8.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$9.$$</Latex></div>
+            <div className="algores"><Latex>{K_px}</Latex></div>
+            <h5>{res9.current}</h5>
           </div>
         </div>
       </div>
       <div className="modal" onClick={e => handleHideModal(e)} style={{display: "none"}}>
         <div className="modalcontent1" onClick={e => e.stopPropagation()} style={{display: "none"}}>
           <textarea ref={res1} style={{height: "100px", width: "400px", resize: "none"}}></textarea>
+        </div>
+        <div className="modalcontent2" onClick={e => e.stopPropagation()} style={{display: "none"}}>
+          <textarea ref={res3} style={{height: "50px", width: "400px", resize: "none"}}></textarea>
         </div>
       </div>
     </div>

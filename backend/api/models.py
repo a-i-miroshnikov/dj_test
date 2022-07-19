@@ -57,12 +57,17 @@ class Model1(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
-    Apl_res = models.TextField(blank=True)
-    v_res = models.TextField(blank=True)
-    Bpl = models.TextField(blank=True)
+    Apl_res = models.TextField(blank=True) # №1
+    Bpl = models.TextField(blank=True) # №2
+    v_res = models.TextField(blank=True) # №3
+    f_c_res = models.FloatField(blank=True) # №4
+    f_e_res = models.FloatField(blank=True)  # №5
+    Kxl_res = models.FloatField(blank=True)  # №6
+    Kx_res = models.FloatField(blank=True)  # №7
     W_c = models.FloatField(blank=True)
     little_w_c = models.FloatField(blank=True)
-    K_pnorm = models.FloatField(blank=True)
+    K_pnorm = models.FloatField(blank=True) # №8
+    K_px_res = models.FloatField(blank=True) # №9
     result = models.FloatField(blank=True)
 
     @property
@@ -124,17 +129,19 @@ class Model1(models.Model):
         self.K_pnorm = (1 / self.W_c) * integrate.quad(lambda xi: self.Kx(xi, self.little_w_c), -self.little_w_c, self.little_w_c)[0]
 
         # №9
-        self.result = self.K_px(self.x, self.w)
+        self.K_px_res = self.K_px(self.x, self.w)
+        self.result = self.K_px_res
 
         # Форматирование для БД
-        self.Apl_res = json.dumps(self.Apl_res)
-        self.Bpl = json.dumps(self.Bpl)
+        self.Apl_res = json.dumps(self.Apl_res) # №1
+        self.Bpl = json.dumps(self.Bpl) # №2
+        self.v_res = json.dumps(self.v_res.tolist()) # №3
 
         super().save(*args, **kwargs)
 
     # №1
     def Apl(self, w):
-        return [
+        self.Apl_res = [
             [1, 0, 0, 0, 0, 0, 0],
             [1, np.power((w - self.xi_p), 2), np.power((w - self.xi_p), 6), 0, 0, 0, 0],
             [1, np.power((w - self.xi_c), 2), np.power((w - self.xi_c), 6), 0, 0, 0, 0],
@@ -144,31 +151,38 @@ class Model1(models.Model):
             [0, 2 * (w - self.xi_c), 6 * np.power((w - self.xi_c), 5), 0, -1, -2 * (w - self.xi_c),
              -3 * np.power((w - self.xi_c), 2)]
         ]
+        return self.Apl_res
 
     # №3
     def v(self, w):
-        self.Apl_res = self.Apl(w)
-        return np.matmul(np.linalg.inv(self.Apl(w)), json_clear(self.Bpl))
+        self.v_res = np.matmul(np.linalg.inv(self.Apl(w)), json_clear(self.Bpl))
+        return self.v_res
 
     # №4
     def f_c(self, x, w):
-        return self.v(w)[0] + self.v(w)[1] * np.power(x, 2) + self.v(w)[2] * np.power(x, 6)
+        self.f_c_res = self.v(w)[0] + self.v(w)[1] * np.power(x, 2) + self.v(w)[2] * np.power(x, 6)
+        return self.f_c_res
 
     # №5
     def f_e(self, x, w):
-        return self.v(w)[3] + self.v(w)[4] * x + self.v(w)[5] * np.power(x, 2) + self.v(w)[6] * np.power(x, 3)
+        self.f_e_res = self.v(w)[3] + self.v(w)[4] * x + self.v(w)[5] * np.power(x, 2) + self.v(w)[6] * np.power(x, 3)
+        return self.f_e_res
 
     # №6
     def Kxl(self, x, w):
         if 0 <= x <= (w - self.xi_c):
-            return self.f_c(x, w)
+            self.Kxl_res = self.f_c(x, w)
+            return self.Kxl_res
         elif (w - self.xi_c) <= x <= w:
-            return self.f_e(x, w)
-        return 0
+            self.Kxl_res = self.f_e(x, w)
+            return self.Kxl_res
+        self.Kxl_res = 0
+        return self.Kxl_res
 
     # №7
     def Kx(self, x, w):
-        return self.Kxl(x, w) if 0 <= x else self.Kxl(-x, w)
+        self.Kx_res = self.Kxl(x, w) if 0 <= x else self.Kxl(-x, w)
+        return self.Kx_res
 
     # №9
     def K_px(self, x, w):

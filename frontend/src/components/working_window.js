@@ -67,7 +67,7 @@ const WorkingWindow = ({ModelIsShown}) => {
         setBeginUpload(false);
         console.log("Файлы csv успешно загружены!");
         alert("Файлы csv успешно загружены!");
-        window.location.reload();
+        setTimeout(() => { window.location.reload() }, 250);
       })
       .catch(err => console.warn(err))
   }
