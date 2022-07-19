@@ -1,11 +1,9 @@
-import '../App.css';
-import './models_buttons.css';
+import './App.css';
 import React, {useEffect, useState, useMemo} from "react";
 import axios from "axios";
-import {Model1, Model2, Model3, Model4, Model5, Model6, Model7, Model8, Model9, Model10} from "./models";
-import {CsvLoader} from "./csv_loader";
+import {WorkingWindow} from "./working_window";
 
-const ModelsButtons = () => {
+function App() {
 
   const FinishedModelsNum = 10;
   const api_url = "http://localhost:8000/api/model_"
@@ -91,24 +89,9 @@ const ModelsButtons = () => {
         <button name="model_17" disabled={true}>17. Модель качества профиля</button>
         <button name="model_18" disabled={true}>18. Модель расчета оптимальной сдвижки</button>
       </div>
-      <div className='workingWindow'>
-        {ModelIsShown[0] && <Model1/>}
-        {ModelIsShown[1] && <Model2/>}
-        {ModelIsShown[2] && <Model3/>}
-        {ModelIsShown[3] && <Model4/>}
-        {ModelIsShown[4] && <Model5/>}
-        {ModelIsShown[5] && <Model6/>}
-        {ModelIsShown[6] && <Model7/>}
-        {ModelIsShown[7] && <Model8/>}
-        {ModelIsShown[8] && <Model9/>}
-        {ModelIsShown[9] && <Model10/>}
-        <CsvLoader/>
-        <br/>
-        <br/>
-        <br/>
-      </div>
+      <WorkingWindow ModelIsShown={ModelIsShown}/>
     </div>
   );
 }
 
-export{ModelsButtons};
+export default App;

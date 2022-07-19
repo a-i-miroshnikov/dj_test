@@ -167,6 +167,26 @@ const Model1 = () => {
         }
       })
 
+    await axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Args.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+
+    await axios
+      .get("http://localhost:8000/api/csv/")
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Csv.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+
     if (!Args.current || !Csv.current) {
       alert("Заполните все параметры и загрузите csv файлы!");
       return;
