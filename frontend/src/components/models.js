@@ -21,7 +21,8 @@ const Model1 = () => {
   const z_e = useRef();
   const W12_average = useRef();
 
-  const Apl = useRef();
+  const res1 = useRef();
+  const res2 = useRef();
   const Args = useRef(false);
   const Csv = useRef();
   const [modelExist, setModelExist] = useState(false);
@@ -57,7 +58,8 @@ const Model1 = () => {
         if (res.data.length) {
           setModelExist(true);
           const data = res.data[res.data.length - 1];
-          Apl.current.value = data.Apl_res;
+          res1.current.value = data.Apl_res;
+          res2.current.value = data.Bpl;
           if (data.args === null || data.csv === null)
             setWarnOldParams(true);
         }
@@ -209,13 +211,26 @@ const Model1 = () => {
         csv: Csv.current,
       })
       .then(res => {
-        console.log("Model_1: Вычисления прошли успешно.");
-        alert("Вычисления прошли успешно.");
         setWarnOldParams(false);
         setModelExist(true);
+        console.log("Model_1: Вычисления прошли успешно.");
+        setTimeout(() => { alert("Вычисления прошли успешно.") }, 250);;
       })
       .catch(err => console.warn(err))
 
+  }
+
+  const handleShowModal = resultNum => {
+    const resContent = document.querySelector(resultNum);
+    resContent.style.display = "inline-block";
+    const ModalToOn = document.querySelector(".modal");
+    ModalToOn.style.display = "flex";
+  }
+
+  const handleHideModal = e => {
+    e.currentTarget.style.display = "none";
+    const modalContent = document.querySelectorAll('[class^="modalcontent"]');
+    modalContent.forEach(r => r.style.display = "none");
   }
 
   return (
@@ -282,25 +297,23 @@ const Model1 = () => {
           <Latex>$$№ \; \; Алгоритм$$</Latex>
           <div className="rescell">
             <div className="algonum"><Latex>$$1.$$</Latex></div>
-            <div className="algores"><Latex>$$Apl(w)=$$</Latex></div>
+            <div className="algores"><Latex>$$Apl(w)$$</Latex></div>
             <div className="resarea">
-              <button className="showres" onClick={e => {
-                const AplContent = document.querySelector(".modalcontent1");
-                AplContent.style.display = "inline-block";
-                const ModalToOn = document.querySelector(".modal");
-                ModalToOn.style.display = "flex";
-              }}>Показать массив</button>
+              <button className="showres" onClick={() => handleShowModal(".modalcontent1")}>Показать массив</button>
+            </div>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$2.$$</Latex></div>
+            <div className="algores"><Latex>$$Bpl$$</Latex></div>
+            <div className="resarea">
+              <textarea ref={res2} style={{height: "30px", width: "200px", resize: "none"}}></textarea>
             </div>
           </div>
         </div>
       </div>
-      <div className="modal" onClick={e => {
-        e.currentTarget.style.display = "none";
-        const AplContent = document.querySelector(".modalcontentApl");
-        AplContent.style.display = "none";
-      }} style={{display: "none"}}>
-        <div className="modalcontent1" onClick={e => e.stopPropagation()}>
-          <textarea ref={Apl} style={{height: "100px", width: "400px",resize: "none"}}></textarea>
+      <div className="modal" onClick={e => handleHideModal(e)} style={{display: "none"}}>
+        <div className="modalcontent1" onClick={e => e.stopPropagation()} style={{display: "none"}}>
+          <textarea ref={res1} style={{height: "100px", width: "400px", resize: "none"}}></textarea>
         </div>
       </div>
     </div>
