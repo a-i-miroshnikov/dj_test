@@ -702,4 +702,15 @@ const Model10 = () => {
   );
 }
 
-export{Model1, Model2, Model3, Model4, Model5, Model6, Model7, Model8, Model9, Model10};
+export {
+  Model1,
+  Model2,
+  Model3,
+  Model4,
+  Model5,
+  Model6,
+  Model7,
+  Model8,
+  Model9,
+  Model10
+}

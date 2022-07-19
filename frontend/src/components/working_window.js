@@ -67,9 +67,10 @@ const WorkingWindow = ({ModelIsShown}) => {
         setBeginUpload(false);
         console.log("Файлы csv успешно загружены!");
         alert("Файлы csv успешно загружены!");
+        window.location.reload();
       })
       .catch(err => console.warn(err))
-  };
+  }
 
   return (
     <div className='modelWindow'>
@@ -107,4 +108,4 @@ const WorkingWindow = ({ModelIsShown}) => {
   );
 }
 
-export{WorkingWindow};
+export {WorkingWindow}
