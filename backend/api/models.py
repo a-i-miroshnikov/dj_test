@@ -208,13 +208,17 @@ class Model2(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
-    aHC = models.FloatField(blank = True)
-    Ge = models.FloatField(blank = True)
+    aHC = models.FloatField(blank = True) # №1
+    Ge = models.FloatField(blank = True) # №2
+    Ybu1W_res = models.FloatField(blank = True) # №3
+    Ybu2W_res = models.FloatField(blank=True) # №4
+    YbuW_res = models.FloatField(blank=True) # №5
     W_c = models.FloatField(blank = True)
     P_c = models.FloatField(blank = True)
-    MpW = models.FloatField(blank = True)
+    MpW = models.FloatField(blank = True) # №6
+    yBU_res = models.FloatField(blank=True) # №7
     N_b = models.IntegerField(blank = True)
-    yBUd_j = models.TextField(blank = True)
+    yBUd_j = models.TextField(blank = True) # №8
     result = models.TextField(blank=True)
 
     @property
@@ -290,21 +294,25 @@ class Model2(models.Model):
 
     # №3
     def Ybu1W(self, P):
-        return P * self.W_c ** 2 / (18.8 * self.Yu * self.D_bu ** 4) * \
+        self.Ybu1W_res = P * self.W_c ** 2 / (18.8 * self.Yu * self.D_bu ** 4) * \
                (12 * self.aHC - 8 * self.W_c - 6 * self.L_ck - self.W_c ** 12 / self.L_ck)
+        return self.Ybu1W_res
 
     # №4
     def Ybu2W(self, P):
-        return P * self.W_c / (self.Ge * 3.14 * self.D_bu ** 2) * \
+        self.Ybu2W_res = P * self.W_c / (self.Ge * 3.14 * self.D_bu ** 2) * \
                (1 - self.W_c / (2 * self.L_ck))
+        return self.Ybu2W_res
 
     # №5
     def YbuW(self, P):
-        return 2 * (self.Ybu1W(P) + self.Ybu2W(P))
+        self.YbuW_res = 2 * (self.Ybu1W(P) + self.Ybu2W(P))
+        return self.YbuW_res
 
     # №7
     def yBU(self, z):
-        return self.YbuW(self.P_c) * (2 * z / self.W_c) ** 2
+        self.yBU_res = self.YbuW(self.P_c) * (2 * z / self.W_c) ** 2
+        return self.yBU_res
 
 class Model3Args(models.Model):
     b1 = models.FloatField()

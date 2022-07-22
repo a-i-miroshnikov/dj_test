@@ -62,6 +62,7 @@ const Model1 = () => {
   }, [])
 
   useEffect( () => {
+
     axios
       .get(modelUrl)
       .then(res => {
@@ -85,6 +86,7 @@ const Model1 = () => {
   }, [])
 
   useEffect(() => {
+
     axios
       .get(argsUrl)
       .then(res => {
@@ -106,6 +108,7 @@ const Model1 = () => {
   }, [])
 
   const ArgsSubmit = async () => {
+
     if (!(x.current.value &&
       w.current.value &&
       xi_p.current.value &&
@@ -231,8 +234,10 @@ const Model1 = () => {
         setWarnOldParams(false);
         setModelExist(true);
         console.log("Model_1: Вычисления прошли успешно.");
-        alert("Вычисления прошли успешно.")
-        setTimeout(() => { window.location.reload() }, 250);
+        setModelExist(true);
+        setWarnOldParams(false);
+        alert("Вычисления прошли успешно.");
+        window.location.reload();
       })
       .catch(err => console.warn(err))
 
@@ -315,21 +320,21 @@ const Model1 = () => {
           <Latex>$$№ \; \; Алгоритм$$</Latex>
           <div className="rescell">
             <div className="algonum"><Latex>$$1.$$</Latex></div>
-            <div><Latex>$$Apl(w)$$</Latex></div>
+            <div className="algores"><Latex>Apl(w)</Latex></div>
             <div className="resarea">
               <button className="showres" onClick={() => handleShowModal(".modalcontent1")}>Показать массив</button>
             </div>
           </div>
           <div className="rescell">
             <div className="algonum"><Latex>$$2.$$</Latex></div>
-            <div><Latex>$$Bpl$$</Latex></div>
+            <div className="algores"><Latex>Bpl</Latex></div>
             <div className="resarea">
               <textarea ref={res2} style={{height: "30px", width: "200px", resize: "none"}}></textarea>
             </div>
           </div>
           <div className="rescell">
             <div className="algonum"><Latex>$$3.$$</Latex></div>
-            <div><Latex>$$v(w)$$</Latex></div>
+            <div className="algores"><Latex>v(w)</Latex></div>
             <div className="resarea">
               <button className="showres" onClick={() => handleShowModal(".modalcontent2")}>Показать массив</button>
             </div>
@@ -346,12 +351,12 @@ const Model1 = () => {
           </div>
           <div className="rescell">
             <div className="algonum"><Latex>$$6.$$</Latex></div>
-            <div className="algores"><Latex>$$Kxl (x, w)$$</Latex></div>
+            <div className="algores"><Latex>Kxl (x, w)</Latex></div>
             <h5>{res6.current}</h5>
           </div>
           <div className="rescell">
             <div className="algonum"><Latex>$$7.$$</Latex></div>
-            <div className="algores"><Latex>$$Kx (x, w)$$</Latex></div>
+            <div className="algores"><Latex>Kx (x, w)</Latex></div>
             <h5>{res7.current}</h5>
           </div>
           <div className="rescell">
@@ -386,6 +391,240 @@ const Model2 = () => {
   const W12_averageShow = "$$W12_{average}$$";
   const P12_averageShow = "$$P12_{average}$$";
 
+  const argsUrl = "http://localhost:8000/api/model_2_args/";
+  const modelUrl = "http://localhost:8000/api/model_2/";
+
+  const S_x = useRef();
+  const L_bu = useRef();
+  const L_conic = useRef();
+  const Yu = useRef();
+  const mu = useRef();
+  const D_bu = useRef();
+  const L_ck = useRef();
+  const W12_average = useRef();
+  const P12_average = useRef();
+
+  const res1 = useRef();
+  const res2 = useRef();
+  const res3 = useRef();
+  const res4 = useRef();
+  const res5 = useRef();
+  const res6 = useRef();
+  const res7 = useRef();
+  const res8 = useRef();
+  const Args = useRef(false);
+  const Csv = useRef();
+  const [modelExist, setModelExist] = useState(false);
+  const [warnOldParams, setWarnOldParams] = useState(false);
+
+  useEffect(() => {
+
+    axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Args.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+
+    axios
+      .get("http://localhost:8000/api/csv/")
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Csv.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+  }, [])
+
+  useEffect( () => {
+
+    axios
+      .get(modelUrl)
+      .then(res => {
+        if (res.data.length) {
+          setModelExist(true);
+          const data = res.data[res.data.length - 1];
+          res1.current = data.aHC;
+          res2.current = data.Ge;
+          res3.current = data.Ybu1W_res;
+          res4.current= data.Ybu2W_res;
+          res5.current = data.YbuW_res;
+          res6.current = data.MpW;
+          res7.current = data.yBU_res;
+          res8.current.value = data.yBUd_j;
+          if (data.args === null || data.csv === null)
+            setWarnOldParams(true);
+        }
+      })
+      .catch(err => console.warn(err))
+  }, [])
+
+  useEffect(() => {
+
+    axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          S_x.current.value = data.S_x;
+          L_bu.current.value = data.L_bu;
+          L_conic.current.value = data.L_conic;
+          Yu.current.value = data.Yu;
+          mu.current.value = data.mu;
+          D_bu.current.value = data.D_bu;
+          L_ck.current.value = data.L_ck;
+          W12_average.current.checked = data.W12_average;
+          P12_average.current.checked = data.P12_average;
+        }
+      })
+  }, [])
+
+  const ArgsSubmit = async () => {
+
+    if (!(S_x.current.value &&
+      L_bu.current.value &&
+      L_conic.current.value &&
+      Yu.current.value &&
+      mu.current.value &&
+      D_bu.current.value &&
+      L_ck.current.value)
+    ) {
+      alert("Введите все необходимые параметры!");
+      return;
+    }
+    if (!window.confirm("Сохранить введенные параметры?")) return;
+
+    await axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          for (let i of res.data)
+            axios.delete(argsUrl + i.id);
+        }
+        console.log("Model_2_args: Старые параметры очищены.");
+      })
+      .catch(err => console.warn(err))
+
+    await axios
+      .post(argsUrl, {
+        S_x: S_x.current.value,
+        L_bu: L_bu.current.value,
+        L_conic: L_conic.current.value,
+        Yu: Yu.current.value,
+        mu: mu.current.value,
+        D_bu: D_bu.current.value,
+        L_ck: L_ck.current.value,
+        W12_average: W12_average.current.checked,
+        P12_average: P12_average.current.checked,
+      })
+      .then(res => {
+        console.log("Model_2_args: Новые параметры загружены.");
+        Args.current = res.data.id;
+        setWarnOldParams(true);
+      })
+      .catch(err => console.warn(err))
+  }
+
+  const handleCalc = async () => {
+
+    if (!window.confirm("Запустить вычисления?")) return;
+
+    await axios
+      .get(argsUrl)
+      .then(async (res) => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          if (+S_x.current.value !== data.S_x ||
+            +L_bu.current.value !== data.L_bu ||
+            +L_conic.current.value !== data.L_conic ||
+            +Yu.current.value !== data.Yu ||
+            +mu.current.value !== data.mu ||
+            +D_bu.current.value !== data.D_bu ||
+            +L_ck.current.value !== data.L_ck ||
+            W12_average.current.checked !== data.W12_average ||
+            P12_average.current.checked !== data.P12_average
+          ) {
+            if (!window.confirm("Новые параметры не сохранены. " +
+              "Модель будет рассчитана на основе старых данных. " +
+              "Использовать новые параметры?"))
+              alert("Вычисления будут происходить со старыми параметрами!");
+            else
+              await ArgsSubmit();
+          }
+        }
+      })
+
+    await axios
+      .get(argsUrl)
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Args.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+
+    await axios
+      .get("http://localhost:8000/api/csv/")
+      .then(res => {
+        if (res.data.length) {
+          const data = res.data[res.data.length - 1];
+          Csv.current = data.id;
+        }
+      })
+      .catch(err => console.warn(err))
+
+    if (!Args.current || !Csv.current) {
+      alert("Заполните все параметры и загрузите csv файлы!");
+      return;
+    }
+
+    await axios
+      .get(modelUrl)
+      .then(res => {
+        if (res.data.length) {
+          for (let i of res.data)
+            axios.delete(modelUrl + i.id);
+        }
+        console.log("Model_2: Старые параметры очищены.");
+      })
+      .catch(err => console.warn(err))
+
+    await axios
+      .post(modelUrl, {
+        args: Args.current,
+        csv: Csv.current,
+      })
+      .then(res => {
+        setWarnOldParams(false);
+        setModelExist(true);
+        console.log("Model_2: Вычисления прошли успешно.");
+        setModelExist(true);
+        setWarnOldParams(false);
+        alert("Вычисления прошли успешно.");
+        window.location.reload();
+      })
+      .catch(err => console.warn(err))
+
+  }
+
+  const handleShowModal = resultNum => {
+    const resContent = document.querySelector(resultNum);
+    resContent.style.display = "inline-block";
+    const ModalToOn = document.querySelector(".modal");
+    ModalToOn.style.display = "flex";
+  }
+
+  const handleHideModal = e => {
+    e.currentTarget.style.display = "none";
+    const modalContent = document.querySelectorAll('[class^="modalcontent"]');
+    modalContent.forEach(r => r.style.display = "none");
+  }
+
   return (
     <div className="modelwindow">
       <h2 style={{textDecoration: "underline"}}>2. Профиль валков (по Целикову) изгиб валков</h2>
@@ -394,44 +633,99 @@ const Model2 = () => {
         <div className="modelinputs">
           <div className="inputcell">
             <Latex>$$S_x$$</Latex>
-            <input type="number" id="S_x_input"/>
+            <input type="number" ref={S_x} id="S_x_input"/>
           </div>
           <div className="inputcell">
             <Latex>{L_buShow}</Latex>
-            <input type="number" id="L_bu_input"/>
+            <input type="number" ref={L_bu} id="L_bu_input"/>
           </div>
           <div className="inputcell">
             <Latex>{L_conicShow}</Latex>
-            <input type="number" id="L_conic_input"/>
+            <input type="number" ref={L_conic} id="L_conic_input"/>
           </div>
           <div className="inputcell">
             <Latex>Yu</Latex>
-            <input type="number" id="Yu_input"/>
+            <input type="number" ref={Yu} id="Yu_input"/>
           </div>
           <div className="inputcell">
             <Latex>$$\mu$$</Latex>
-            <input type="number" id="mu_input"/>
+            <input type="number" ref={mu} id="mu_input"/>
           </div>
           <div className="inputcell">
             <Latex>{D_buShow}</Latex>
-            <input type="number" id="D_bu_input"/>
+            <input type="number" ref={D_bu} id="D_bu_input"/>
           </div>
           <div className="inputcell">
             <Latex>{L_ckShow}</Latex>
-            <input type="number" id="L_ck_input"/>
+            <input type="number" ref={L_ck} id="L_ck_input"/>
           </div>
           <div className="inputcell">
             <Latex>{W12_averageShow}</Latex>
-            <input type="checkbox" id="W12_average_input"/>
+            <input type="checkbox" ref={W12_average} id="W12_average_input"/>
           </div>
           <div className="inputcell">
             <Latex>{P12_averageShow}</Latex>
-            <input type="checkbox" id="P12_average_input"/>
+            <input type="checkbox" ref={P12_average} id="P12_average_input"/>
           </div>
         </div>
         <div className='inputbuttons'>
-          <button className="saveinputs">Сохранить</button>
-          <button className="loadmodel">Вычислить</button>
+          <button className="saveinputs" onClick={() => ArgsSubmit()}>Сохранить</button>
+          <button className="loadmodel" onClick={() => handleCalc()}>Вычислить</button>
+        </div>
+      </div>
+      <div className="modelresultswindow">
+        <h1>Результаты вычислений:</h1>
+        {warnOldParams && modelExist && <p className="warningresults">⚠ Модель рассчитана на основе старых данных!</p>}
+        {!modelExist && <p className="warningresults">⚠ Сначала нажмите кнопку "Вычислить".</p>}
+        <div className="results" style={{display: modelExist ? "grid" : "none"}}>
+          <Latex>$$№ \; \; Алгоритм$$</Latex>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$1.$$</Latex></div>
+            <div className="algores"><Latex>aHC</Latex></div>
+            <h5>{res1.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$2.$$</Latex></div>
+            <div className="algores"><Latex>Ge</Latex></div>
+            <h5>{res2.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$3.$$</Latex></div>
+            <div className="algores"><Latex>Ybu1W (P)</Latex></div>
+            <h5>{res3.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$4.$$</Latex></div>
+            <div className="algores"><Latex>Ybu2W (P)</Latex></div>
+            <h5>{res4.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$5.$$</Latex></div>
+            <div className="algores"><Latex>YbuW (P)</Latex></div>
+            <h5>{res5.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$6.$$</Latex></div>
+            <div className="algores"><Latex>MpW</Latex></div>
+            <h5>{res6.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$7.$$</Latex></div>
+            <div className="algores"><Latex>yBU (z)</Latex></div>
+            <h5>{res7.current}</h5>
+          </div>
+          <div className="rescell">
+            <div className="algonum"><Latex>$$8.$$</Latex></div>
+            <div  className="algores"><Latex>$$yBUD_j$$</Latex></div>
+            <div className="resarea">
+              <button className="showres" onClick={() => handleShowModal(".modalcontent8")}>Показать массив</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="modal" onClick={e => handleHideModal(e)} style={{display: "none"}}>
+        <div className="modalcontent8" onClick={e => e.stopPropagation()} style={{display: "none"}}>
+          <textarea ref={res8} style={{height: "400px", width: "800px", resize: "none"}}></textarea>
         </div>
       </div>
     </div>
