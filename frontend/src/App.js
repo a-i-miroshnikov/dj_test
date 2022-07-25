@@ -53,19 +53,11 @@ function App() {
     Promise.all(PromiseArr).then(res => setModelsAvailable(res))
   }, [PromiseArr]);
 
-  if (!modelsAvailable[3]) {
-    modelsAvailable[4] = !modelsAvailable[4] ? false : true;
-    modelsAvailable[5] = !modelsAvailable[5] ? false : true;
-  }
-
-  if (!modelsAvailable[0] || !modelsAvailable[1] || !modelsAvailable[6])
-    modelsAvailable[7] = !modelsAvailable[7] ? false : true;
-
-  if (!modelsAvailable[7])
-    modelsAvailable[8] = !modelsAvailable[8] ? false : true;
-
-  if (!modelsAvailable[1] || !modelsAvailable[3] || !modelsAvailable[6] || !modelsAvailable[7])
-    modelsAvailable[9] = !modelsAvailable[9] ? false : true;
+  modelsAvailable[4] = modelsAvailable[3];
+  modelsAvailable[5] = modelsAvailable[3];
+  modelsAvailable[7] = modelsAvailable[0] && modelsAvailable[1] && modelsAvailable[6];
+  modelsAvailable[8] = modelsAvailable[7];
+  modelsAvailable[9] = modelsAvailable[1] && modelsAvailable[3] && modelsAvailable[6] && modelsAvailable[7];
 
   return (
     <div className="App">

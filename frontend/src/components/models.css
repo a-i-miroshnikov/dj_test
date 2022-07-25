@@ -4,6 +4,12 @@ input[type=number]::-webkit-outer-spin-button {
     margin: 0;
 }
 
+.leftSide {
+    display: grid;
+    width: 450px;
+    float: left;
+}
+
 h1 {
     text-align: center;
     font-family: Tinos;
@@ -173,5 +179,9 @@ div[class^='modalcontent'], div[class*='modalcontent'] {
 div[class^='modalcontent'], div[class*='modalcontent'] * {
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+.loadSpinner * {
     justify-content: center;
 }

@@ -330,7 +330,9 @@ class Model3(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
-    uGc0 = models.FloatField(blank = True)
+    uTc_res = models.FloatField(blank = True) # №1
+    uBc_res = models.FloatField(blank=True) # №2
+    uGc0 = models.FloatField(blank = True) # №3
     result = models.FloatField(blank=True)
 
     @property
@@ -364,11 +366,13 @@ class Model3(models.Model):
 
     # №1
     def uTc(self, z):
-        return self.b1 * z + self.b2 * z ** 2 + self.b3 * z ** 3
+        self.uTc_res = self.b1 * z + self.b2 * z ** 2 + self.b3 * z ** 3
+        return self.uTc_res
 
     # №2
     def uBc(self, z):
-        return self.b1 * z + self.b2 * z ** 2 + self.b3 * z ** 3
+        self.uBc_res = self.b1 * z + self.b2 * z ** 2 + self.b3 * z ** 3
+        return self.uBc_res
 
 class Model4Args(models.Model):
     L_wr = models.FloatField()
@@ -384,6 +388,17 @@ class Model4(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
+    pTg1_res = models.FloatField(blank = True, null=True) # №1
+    pTw1_res = models.FloatField(blank=True, null=True) # №2
+    pBg_res = models.FloatField(blank=True, null=True) # №3
+    pBw_res = models.FloatField(blank=True, null=True) # №4
+    pTg_res = models.FloatField(blank=True, null=True) # №5
+    pTw_res = models.FloatField(blank=True, null=True) # №6
+    uGg0_res = models.FloatField(blank=True, null=True) # №7
+    uGg_res = models.FloatField(blank=True, null=True) # №8
+    Cr_res = models.FloatField(blank=True, null=True) # №9
+    yG_res = models.FloatField(blank=True) # №11
+    yGd_j_res = models.TextField(blank=True) # №12
     l_w = models.FloatField(blank = True)
     S_hc = models.FloatField(blank = True)
     Cr0 = models.FloatField(blank = True)
@@ -452,43 +467,53 @@ class Model4(models.Model):
 
     # №1
     def pTg1(self, x):
-        return np.interp(x, self.xx, self.pT0)
+        self.pTg1_res = np.interp(x, self.xx, self.pT0)
+        return self.pTg1_res
 
     # №2
     def pTw1(self, x):
-        return np.interp(x, self.xx, self.pT1)
+        self.pTw1_res = np.interp(x, self.xx, self.pT1)
+        return self.pTw1_res
 
     # №3
     def pBg(self, x):
-        return np.interp(x, self.xx, self.pB0)
+        self.pBg_res = np.interp(x, self.xx, self.pB0)
+        return self.pBg_res
 
     # №4
     def pBw(self, x):
-        return np.interp(x, self.xx, self.pB1)
+        self.pBw_res = np.interp(x, self.xx, self.pB1)
+        return self.pBw_res
 
     # №5
     def pTg(self, z):
-        return self.pTg1(self.L_wr - z)
+        self.pTg_res = self.pTg1(self.L_wr - z)
+        return self.pTg_res
 
     # №6
     def pTw(self, z):
-        return self.pTw1(self.L_wr - z)
+        self.pTw_res = self.pTw1(self.L_wr - z)
+        return self.pTw_res
 
     # №7
     def uGg0(self, z, sh):
-        return self.pTg(z - sh) - self.pBg(z + sh)
+        self.uGg0_res = self.pTg(z - sh) - self.pBg(z + sh)
+        return self.uGg0_res
 
     # №8
     def uGg(self, z, sh):
-        return self.uGg0(z, sh) - self.uGg0(0, sh)
+        self.uGg_res = self.uGg0(z, sh) - self.uGg0(0, sh)
+        return self.uGg_res
 
     # №9
     def Cr(self, sh):
-        return self.uGg(self.l_w, sh)
+        self.Cr_res = self.uGg(self.l_w, sh)
+        return self.Cr_res
 
     # №11
     def yG(self, z):
-        return self.Cr0 * (1 - (z / (self.l_w - self.S_hc)) ** 2)
+        self.yG_res = self.Cr0 * (1 - (z / (self.l_w - self.S_hc)) ** 2)
+        return self.yG_res
 
     # №12
     def yGd_j(self):
@@ -497,9 +522,9 @@ class Model4(models.Model):
 class Model5Args(models.Model):
     x = models.FloatField()
     sh = models.FloatField()
-    model4 = models.ForeignKey(Model4, on_delete=models.SET_NULL, null=True)
-    W12_average = models.BooleanField(default=False)
     S_x = models.FloatField()
+    W12_average = models.BooleanField(default=False)
+    model4 = models.ForeignKey(Model4, on_delete=models.SET_NULL, null=True)
 
 class Model5(models.Model):
     """
@@ -510,9 +535,10 @@ class Model5(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
+    uGw_res = models.FloatField(blank = True, null=True) # №1
     W_c = models.FloatField(blank = True)
     N_w = models.IntegerField(blank = True)
-    delta_yG = models.FloatField(blank = True)
+    delta_yG = models.FloatField(blank = True) # №2
     result = models.FloatField(blank = True)
 
     @property
@@ -552,7 +578,8 @@ class Model5(models.Model):
 
     # №1
     def uGw(self, x, sh):
-        return self.model4.pTw(x - sh) - self.model4.pBw(x + sh)
+        self.uGw_res = self.model4.pTw(x - sh) - self.model4.pBw(x + sh)
+        return self.uGw_res
 
 class Model6Args(models.Model):
     L_wr = models.FloatField()
@@ -568,6 +595,12 @@ class Model6(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
+    wT1_res = models.FloatField(blank=True) # №1
+    wT_res = models.FloatField(blank=True) # №2
+    wB1_res = models.FloatField(blank=True) # №3
+    wB_res = models.FloatField(blank=True) # №4
+    wG1_res = models.FloatField(blank=True) # №5
+    wG_res = models.FloatField(blank=True) # №6
     result = models.FloatField(blank = True)
 
     @property
@@ -590,27 +623,33 @@ class Model6(models.Model):
 
     # №1
     def wT1(self, z):
-        return self.model4.pTg(z) - self.model4.pTw(z)
+        self.wT1_res = self.model4.pTg(z) - self.model4.pTw(z)
+        return self.wT1_res
 
     # №2
     def wT(self, z):
-        return self.wT1(z) - min(self.wT1(0), self.wT1(self.L_wr))
+        self.wT_res = self.wT1(z) - min(self.wT1(0), self.wT1(self.L_wr))
+        return self.wT_res
 
     # №3
     def wB1(self, z):
-        return self.model4.pBg(z) - self.model4.pBw(z)
+        self.wB1_res = self.model4.pBg(z) - self.model4.pBw(z)
+        return self.wB1_res
 
     # №4
     def wB(self, z):
-        return self.wB1(z) - min(self.wB1(0), self.wB1(self.L_wr))
+        self.wB_res = self.wB1(z) - min(self.wB1(0), self.wB1(self.L_wr))
+        return self.wB_res
 
     # №5
     def wG1(self, x):
-        return self.wT(x) + self.wB(x)
+        self.wG1_res = self.wT(x) + self.wB(x)
+        return self.wG1_res
 
     # №6
     def wG(self, z):
-        return self.wG1(z) - min(self.wG1(0), self.wG1(self.L_wr))
+        self.wG_res = self.wG1(z) - min(self.wG1(0), self.wG1(self.L_wr))
+        return self.wG_res
 
 class Model7Args(models.Model):
     M_x = models.FloatField()
@@ -636,19 +675,26 @@ class Model7(models.Model):
     # Результаты алгоритмов
     W_c = models.FloatField(blank = True)
     little_w_c = models.FloatField(blank = True)
-    K_c = models.FloatField(blank = True)
+    K_c = models.FloatField(blank = True) # №1
+    uc_res = models.FloatField(blank = True) # №2
     l_w = models.FloatField(blank = True)
-    K_e = models.FloatField(blank = True)
-    R_w0 = models.FloatField(blank = True)
+    K_e = models.FloatField(blank = True) # №3
+    ue_res = models.FloatField(blank = True) # №4
+    Tsu_res = models.FloatField(blank = True) # №5
+    Tsu1_res = models.FloatField(blank=True) # №6
+    Tsurf_res = models.FloatField(blank=True) # №7
+    R_w0 = models.FloatField(blank = True) # №8
+    Trz_res = models.FloatField(blank = True) # №9
+    Tz_res = models.FloatField(blank = True) # №10
     N_wr = models.IntegerField(blank = True)
-    Tzz_j = models.TextField(blank = True)
-    Tza_j = models.TextField(blank = True)
-    Tsud_j = models.TextField(blank = True)
+    Tzz_j = models.TextField(blank = True) # №11
+    Tza_j = models.TextField(blank = True) # №12
+    Tsud_j = models.TextField(blank = True) # №13
     W_c = models.FloatField(blank = True)
     N_w = models.IntegerField(blank = True)
-    delta_Tws = models.FloatField(blank = True)
-    delta_Dtd_j = models.TextField(blank = True)
-    delta_DtW = models.FloatField(blank = True)
+    delta_Tws = models.FloatField(blank = True) # №14
+    delta_Dtd_j = models.TextField(blank = True) # №15
+    delta_DtW = models.FloatField(blank = True) # №16
     result = models.FloatField(blank = True)
 
     @property
@@ -754,31 +800,40 @@ class Model7(models.Model):
 
     # №2
     def uc(self, x):
-        return self.T_se + self.K_c * (1 - math.exp(self.M_x * (x - self.little_w_c)))
+        self.uc_res = self.T_se + self.K_c * (1 - math.exp(self.M_x * (x - self.little_w_c)))
+        return self.uc_res
 
     # №4
     def ue(self, x):
-        return self.T_se - self.K_e * (1 - math.exp(self.M_x * (-x + self.little_w_c)))
+        self.ue_res = self.T_se - self.K_e * (1 - math.exp(self.M_x * (-x + self.little_w_c)))
+        return self.ue_res
 
     # №5
     def Tsu(self, x):
         if 0 <= x <= self.little_w_c:
-            return self.uc(x)
+            self.Tsu_res = self.uc(x)
+            return self.Tsu_res
         if self.little_w_c <= x <= self.l_w:
-            return self.ue(x)
-        return 0
+            self.Tsu_res = self.ue(x)
+            return self.Tsu_res
+        self.Tsu_res = 0
+        return self.Tsu_res
 
     # №6
     def Tsu1(self, x):
         if 0 <= x <= self.l_w:
-            return self.Tsu(x)
+            self.Tsu1_res = self.Tsu(x)
+            return self.Tsu1_res
         if x <= 0:
-            return self.Tsu(-x)
-        return 0
+            self.Tsu1_res = self.Tsu(-x)
+            return self.Tsu1_res
+        self.Tsu1_res = 0
+        return self.Tsu1_res
 
     # №7
     def Tsurf(self, x):
-        return self.Tsu1(x - self.l_w) - self.T_cool
+        self.Tsurf_res = self.Tsu1(x - self.l_w) - self.T_cool
+        return self.Tsurf_res
 
     # №9
     def Trz(self, r, z):
@@ -789,14 +844,15 @@ class Model7(models.Model):
         for n in range(1, 37):
             summa += (r / self.R_w0) * np.sin((n * np.pi * z) / self.L_wr) * \
                      integrate.quad(integrand, 0, self.L_wr, args=(n))[0]
-        return (2 / self.L_wr) * summa
+        self.Trz_res = (2 / self.L_wr) * summa
+        return self.Trz_res
 
     # №10
     def Tz(self, z):
         def integrand(r, z):
             return self.Trz(r, z)
-
-        return (1 / self.R_w0) * integrate.quad(integrand, 0, self.R_w0, args=(z))[0]
+        self.Tz_res = (1 / self.R_w0) * integrate.quad(integrand, 0, self.R_w0, args=(z))[0]
+        return self.Tz_res
 
 class Model8Args(models.Model):
     Yu = models.FloatField()
@@ -823,23 +879,25 @@ class Model8(models.Model):
     csv = models.ForeignKey(CsvData, on_delete=models.SET_NULL, null=True)
 
     # Результаты алгоритмов
-    Lambda = models.FloatField(blank = True)
-    Coef = models.FloatField(blank = True)
-    theta = models.FloatField(blank = True)
+    Lambda = models.FloatField(blank = True) # №1
+    Coef = models.FloatField(blank = True) # №2
+    theta = models.FloatField(blank = True) # №3
     h_1 = models.FloatField(blank = True)
-    delta_h = models.FloatField(blank = True)
+    delta_h = models.FloatField(blank = True) # №4
     P_c = models.FloatField(blank = True)
     W_c = models.FloatField(blank = True)
-    R_c = models.FloatField(blank = True)
-    Lgap = models.FloatField(blank = True)
-    q_m = models.FloatField(blank = True)
-    xA = models.FloatField(blank = True)
+    R_d_res = models.FloatField(blank = True) # №5
+    R_c = models.FloatField(blank = True) # №6
+    Lgap = models.FloatField(blank = True) # №7
+    q_m = models.FloatField(blank = True) # №8
+    qq_res = models.FloatField(blank = True) # №9
+    xA = models.FloatField(blank = True) # №10
     N_w = models.IntegerField(blank = True)
-    y_i = models.TextField(blank = True)
+    y_i = models.TextField(blank = True) # №11
     little_w_c = models.FloatField(blank = True)
-    J_i = models.TextField(blank = True)
-    delta_Df_i = models.TextField(blank = True)
-    Mrs_i = models.TextField(blank = True)
+    J_i = models.TextField(blank = True) # №12
+    delta_Df_i = models.TextField(blank = True) # №13
+    Mrs_i = models.TextField(blank = True) # №14
     result = models.TextField(blank = True)
 
     @property
@@ -988,11 +1046,13 @@ class Model8(models.Model):
 
     # №5
     def R_d(self, p, delta_h, w):
-        return self.model7.R_w0 * (1 + (self.Ce * self.theta * p) / (delta_h * w))
+        self.R_d_res = self.model7.R_w0 * (1 + (self.Ce * self.theta * p) / (delta_h * w))
+        return self.R_d_res
 
     # №9
     def qq(self, x):
-        return self.q_m * self.model1.K_px(x, self.W_c)
+        self.qq_res = self.q_m * self.model1.K_px(x, self.W_c)
+        return self.qq_res
 
 class Model9Args(models.Model):
     muF = models.FloatField()

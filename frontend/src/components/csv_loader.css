@@ -13,15 +13,18 @@ h2 {
 
 .csv_load_window {
     text-align: center;
-    margin-top: 1em;
     color: inherit;
     font-family: Tinos;
     font-size: 24px;
     border: 1px solid #ddd;
     width: 450px;
+    height: 390px;
     padding: 5px 5px;
     border-radius: 0px;
     background-color: #F9F9F9;
+    float: left;
+    margin: auto;
+    margin-top: 1em;
 }
 
 .savecsv {

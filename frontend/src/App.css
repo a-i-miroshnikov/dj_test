@@ -14,7 +14,7 @@
   float: left;
 }
 
-.modelWindow {
+.workingWindow {
   display: grid;
   width: 950px;
   position: absolute;
